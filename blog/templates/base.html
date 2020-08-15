@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="static/main.css"> -->
-
+    <!-- BootStrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/main.css">
@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Blog</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
@@ -41,6 +42,7 @@
             </div>
         </div>
     </nav>
+    <!-- Body content -->
     <br>
     <main role="main" class="container">
         <div class="row">
@@ -56,6 +58,7 @@
                 {% endwith %}
                 {% block content %}{% endblock %}
             </div>
+            <!-- Sidebar -->
             <div class="col-md-4">
                 <div class="content-section">
                     <h3>Our Sidebar</h3>
@@ -71,6 +74,7 @@
             </div>
         </div>
     </main>
+    <!-- Bootsrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>

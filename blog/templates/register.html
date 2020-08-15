@@ -1,75 +1,107 @@
+<!-- Inherits from the base.html -->
 {% extends "base.html" %}
 {% block head %}Register{% endblock %}
 {% block content %}
 <div class="content-section">
     <form action="" method="POST">
+        <!-- Secret Key -->
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Join Today</legend>
+            <!-- Username -->
             <div class="form-group">
+                <!-- Label -->
                 {{ form.username.label(class="form-control-label") }}
-
+                <!-- Checks if the username is valid -->
                 {% if form.username.errors %}
+                <!-- Gives Invalid -->
                 {{ form.username(class="form-control form-control-lg is-invalid") }}
+
                 <div class="invail-feedback">
+                    <!-- Gives an error -->
                     {% for error in form.username.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Provides the value if there is no error -->
                 {{ form.username(class="form-control form-control-lg") }}
 
                 {% endif %}
 
             </div>
+
+            <!-- Email -->
             <div class="form-group">
+                <!-- Label -->
                 {{ form.email.label(class="form-control-label") }}
+                <!-- Checks if there are errors -->
                 {% if form.email.errors %}
+                <!-- Invalid  -->
                 {{ form.email(class="form-control form-control-lg is-invalid") }}
                 <div class="invail-feedback">
+                    <!-- Gives an error -->
                     {% for error in form.email.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Displays the password if there are no errors -->
                 {{ form.email(class="form-control form-control-lg") }}
 
                 {% endif %}
             </div>
+
+            <!-- Password -->
             <div class="form-group">
+                <!-- Label -->
                 {{ form.password.label(class="form-control-label") }}
+                <!-- Checks if there are errors -->
                 {% if form.password.errors %}
                 {{ form.password(class="form-control form-control-lg is-invalid") }}
                 <div class="invail-feedback">
+                    <!-- Displays errors if there are errors  -->
                     {% for error in form.password.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Displays the password -->
                 {{ form.password(class="form-control form-control-lg") }}
 
                 {% endif %}
             </div>
+
+            <!-- Confirm Password -->
             <div class="form-group">
+                <!-- Label -->
                 {{ form.confirm_password.label(class="form-control-label") }}
+                <!-- Checks for password errors -->
                 {% if form.confirm_password.errors %}
+                <!--  Makes invalid -->
                 {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
                 <div class="invail-feedback">
+                    <!-- Gives an error -->
                     {% for error in form.confirm_password.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Provides the password if there are no errors -->
                 {{ form.confirm_password(class="form-control form-control-lg") }}
 
                 {% endif %}
             </div>
         </fieldset>
+
+        <!-- Submit button -->
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
     </form>
 </div>
+
+<!--Redirect to login page if th user already have an account  -->
 <div class="border-top pt-3">
     <small class="text-muted">
         Already Have An Account? <a href="{{ url_for('login') }}" class="ml-2">Sign In</a>

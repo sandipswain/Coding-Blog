@@ -1,11 +1,12 @@
 from blog import db,login_manager
 from datetime import datetime
 from flask_login import UserMixin
-#UserMixin provides various attributes 
+#UserMixin provides various attributes like is_autheicated,is_active,is_anonynomous
 
 #A function to get an user by an ID
 @login_manager.user_loader
 def load_user(user_id):
+    #Returning the user for that ID
     return User.query.get(int(user_id))
 
 #Inheriting from a class UserMixin and db.Model

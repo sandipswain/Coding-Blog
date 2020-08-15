@@ -1,3 +1,4 @@
+<!-- Inheriting from the base.html -->
 {% extends "base.html" %}
 {% block head %}Account{% endblock %}
 {% block content %}
@@ -5,51 +6,75 @@
     <div class="media">
         <img class="rounded-circle account-img" src="{{ image_file }}">
         <div class="media-body">
-            <!-- Displays current username -->
+            <!-- Displays current username and email-->
             <h2 class="account-heading">{{ current_user.username }}</h2>
             <p class="text-secondary">{{ current_user.email }}</p>
         </div>
     </div>
     <!-- FORM HERE -->
 
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <!-- Security protection -->
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Account Info</legend>
             <div class="form-group">
+                <!-- Label -->
                 {{ form.username.label(class="form-control-label") }}
-
+                <!-- Checking for errors -->
                 {% if form.username.errors %}
+                <!-- Checks if its a invalid Username message  -->
                 {{ form.username(class="form-control form-control-lg is-invalid") }}
                 <div class="invail-feedback">
+                    <!-- Displays a  message stating that the username is invalid  -->
                     {% for error in form.username.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Displays the updated username if its valid -->
                 {{ form.username(class="form-control form-control-lg") }}
 
                 {% endif %}
 
             </div>
             <div class="form-group">
+                <!-- Label -->
                 {{ form.email.label(class="form-control-label") }}
+                <!-- Checks if there are some errors -->
                 {% if form.email.errors %}
+                <!-- Makes the field show that there is an error -->
                 {{ form.email(class="form-control form-control-lg is-invalid") }}
                 <div class="invail-feedback">
+                    <!-- Displays the error message  -->
                     {% for error in form.email.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Displays the updated email if there is no error -->
                 {{ form.email(class="form-control form-control-lg") }}
 
                 {% endif %}
             </div>
+            <div class="form-group">
+                <!-- Label -->
+                {{ form.picture.label() }}
+                <!-- gets the updated profile pic -->
+                {{ form.picture(class="form-control-file") }}
+                <!-- Checks if there is an file extension mismatch error  -->
+                {% if form.picture.errors %}
+                {% for error in form.picture.errors %}
+                <!-- Displays the error message -->
+                <span class="text-danger">{{ error }}</span><br>
+                {% endfor %}
+                {% endif %}
 
+            </div>
 
         </fieldset>
         <div class="form-group">
+            <!-- displys the error message  -->
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
     </form>

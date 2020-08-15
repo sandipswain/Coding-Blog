@@ -1,57 +1,76 @@
+<!-- Inheriting from the base.html -->
 {% extends "base.html" %}
 {% block head %}Login{% endblock %}
 {% block content %}<br><br>
+
 <div class="content-section">
     <form action="" method="POST">
+        <!-- Security -->
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Log In</legend>
-
+            <!-- Email -->
             <div class="form-group">
+                <!-- Label -->
                 {{ form.email.label(class="form-control-label") }}
+                <!-- checking for errors -->
                 {% if form.email.errors %}
+                <!-- Gives an error  -->
                 {{ form.email(class="form-control form-control-lg is-invalid") }}
                 <div class="invail-feedback">
+                    <!-- Displays the error message -->
                     {% for error in form.email.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
+                <!-- Displays the email if its valid -->
                 {% else %}
                 {{ form.email(class="form-control form-control-lg") }}
 
                 {% endif %}
             </div>
+            <!-- Password -->
             <div class="form-group">
+                <!-- Label -->
                 {{ form.password.label(class="form-control-label") }}
+                <!-- Checks if there are errors -->
                 {% if form.password.errors %}
+                <!-- Gives an error  -->
                 {{ form.password(class="form-control form-control-lg is-invalid") }}
                 <div class="invail-feedback">
+                    <!-- Displays the error -->
                     {% for error in form.password.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Displays the password if there are no errors -->
                 {{ form.password(class="form-control form-control-lg") }}
 
                 {% endif %}
             </div>
+            <!-- Remember Me -->
             <div class="form-check">
                 {{ form.remember(class="form-check-input") }}
                 {{ form.remember.label(class="form-check-label") }}
 
             </div>
         </fieldset>
+
+        <!-- Submit button -->
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
+        <!-- Forget Password -->
         <small class="text-muted ml-2">
             <a href="#">Forgot Password?</a>
         </small>
     </form>
 </div>
+
 <div class="border-top pt-3">
     <small class="text-muted">
-        Need An Account? <a href="{{ url_for('login') }}" class="ml-2">Sign Up Now</a>
+        Need An Account? <a href="{{ url_for('register') }}" class="ml-2">Sign Up Now</a>
     </small>
 </div>
 {% endblock %}

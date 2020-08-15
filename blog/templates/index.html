@@ -1,3 +1,4 @@
+<!-- Inheriting from the base.html -->
 {% extends "base.html" %}
 {% block head %}Home{% endblock %}
 {% block content %}
@@ -6,10 +7,14 @@
 <article class="media content-section">
     <div class="media-body">
         <div class="article-metadata">
+            <!-- Posts Author name -->
             <a href="#" class="mr-2">{{ post.author }}</a>
+            <!-- Date Posted -->
             <small class="text-muted">{{ post.date_posted }}</small>
         </div>
+        <!-- Post Title -->
         <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+        <!-- Post content -->
         <p class="article-content">{{ post.content }}</p>
     </div>
 </article>
