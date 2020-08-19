@@ -1,0 +1,21 @@
+<!-- Inheriting from the base.html -->
+{% extends "base.html" %}
+{% block head %}Posts{% endblock %}
+{% block content %}
+<h1>Welcome to Home Page</h1><br>
+<article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ url_for('static',filename='img/'+post.author.image_file) }}" alt="">
+    <div class="media-body">
+        <div class="article-metadata">
+            <!-- Posts Author name -->
+            <a href="#" class="mr-2">{{ post.author.username }}</a>
+            <!-- Date Posted -->
+            <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+        </div>
+        <!-- Post Title -->
+        <h2 class="article-title">{{ post.title }}</h2>
+        <!-- Post content -->
+        <p class="article-content">{{ post.content }}</p>
+    </div>
+</article>
+{% endblock %}
