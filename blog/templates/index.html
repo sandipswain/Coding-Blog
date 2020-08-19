@@ -5,15 +5,16 @@
 <h1>Welcome to Home Page</h1><br>
 {% for post in posts %}
 <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ url_for('static',filename='img/'+post.author.image_file) }}" alt="">
     <div class="media-body">
         <div class="article-metadata">
             <!-- Posts Author name -->
-            <a href="#" class="mr-2">{{ post.author }}</a>
+            <a href="#" class="mr-2">{{ post.author.username }}</a>
             <!-- Date Posted -->
-            <small class="text-muted">{{ post.date_posted }}</small>
+            <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
         </div>
         <!-- Post Title -->
-        <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+        <h2><a class="article-title" href="{{ url_for('post',post_id=post.id) }}">{{ post.title }}</a></h2>
         <!-- Post content -->
         <p class="article-content">{{ post.content }}</p>
     </div>
