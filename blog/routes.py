@@ -1,30 +1,32 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect,request
+from flask import render_template, url_for, flash, redirect,request,abort
 from blog import app, db, bcrypt
-from blog.forms import RegistrationForm, LoginForm,UpdateAccountForm
+from blog.forms import RegistrationForm, LoginForm,UpdateAccountForm,PostForm
 from blog.models import User, Post
 from flask_login import login_user,current_user,logout_user,login_required
 
+
 #dummy data
-posts = [
-    {
-        'author': 'Sandip',
-        'age': 27,
-        'title': 'Blog Post 1'
-    },
-    {
-        'author': 'Spectra',
-        'age': 28,
-        'title': 'Blog Post 2'
-    }
-]
+# posts = [
+#     {
+#         'author': 'Sandip',
+#         'age': 27,
+#         'title': 'Blog Post 1'
+#     },
+#     {
+#         'author': 'Spectra',
+#         'age': 28,
+#         'title': 'Blog Post 2'
+#     }
+# ]
 
 
 #Home Page
 @app.route('/')
 def main():
+    posts=Post.query.all()
     return render_template('index.html', posts=posts)
 
 #About Site
@@ -104,7 +106,7 @@ def save_picture(form_picture):
     #Combining the random hex with the file extension
     picture_fn=random_hex+f_ext
     #To get the full path where the image will be saved so tht Python can know where we are saving it
-    #In order to this we will use root path attribute which will gives us the path all the way to our directory
+    #In order to do this we will use root path attribute which will gives us the path all the way to our directory
     #picturepath-><app.root_path>/<static/img>/<picture_fn>
     picture_path=os.path.join(app.root_path,'static/img',picture_fn)
     #Setting the dimension for resizing the image 
@@ -148,3 +150,47 @@ def account():
         
     image_file=url_for('static',filename='img/'+current_user.image_file)
     return render_template('account.html',image_file=image_file,form=form) 
+
+@app.route('/post/new',methods=['GET','POST'])
+@login_required
+def new_post():
+    # Craeting an instance of PostForm
+    form=PostForm()
+    #Check for a GET or POST request
+    if form.validate_on_submit():
+        post=Post(title=form.title.data,content=form.content.data,author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        #If successful display the message and redirect to the home page
+        flash('Your post has been created!','success')
+        return redirect(url_for('main'))
+    return render_template('create_post.html',form=form)
+
+# Open the route with the following id
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    #Return the query of the given id else shows error if it doesnt exist
+    post=Post.query.get_or_404(post_id)
+    return render_template('post.html',post=post,legend='New Post')
+
+@app.route('/post/<int:post_id>/update',methods=['GET','POST'])
+def update_post(post_id):
+    post=Post.query.get_or_404(post_id)
+    #Only the user who wrote the post can update it
+    if post.author != current_user:
+        abort(403)#HTTP response for a forbidden route
+    form=PostForm()
+    if form.validate_on_submit():
+        #Updating with new values
+        post.title=form.title.data
+        post.content=form.content.data
+        #We didnt do db.add since we are not adding a new one we are just updating the previous value
+        db.session.commit()
+        flash('Your post has been updated! ','success')
+        return redirect(url_for('post',post_id=post_id))
+    #Fetching the current entered values
+    elif request.method=='GET':
+    #Filling in the form with the current post data
+        form.title.data=post.title
+        form.content.data=post.content
+    return render_template('create_post.html',form=form,legend='Update Post')
