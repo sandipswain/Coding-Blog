@@ -1,0 +1,62 @@
+<!-- Inheriting from the base.html -->
+{% extends "base.html" %}
+{% block head %}New Post{% endblock %}
+{% block content %}
+<div class="content-section">
+    <form action="" method="POST">
+        <!-- Security -->
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <!-- Title -->
+            <div class="form-group">
+                <!-- Label -->
+                {{ form.title.label(class="form-control-label") }}
+                <!-- checking for errors -->
+                {% if form.title.errors %}
+                <!-- Gives an error  -->
+                {{ form.title(class="form-control form-control-lg is-invalid") }}
+                <div class="invail-feedback">
+                    <!-- Displays the error message -->
+                    {% for error in form.title.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <!-- Displays the title if its valid -->
+                {% else %}
+                {{ form.title(class="form-control form-control-lg") }}
+
+                {% endif %}
+            </div>
+            <!-- Content-->
+            <div class="form-group">
+                <!-- Label -->
+                {{ form.content.label(class="form-control-label") }}
+                <!-- Checks if there are errors -->
+                {% if form.content.errors %}
+                <!-- Gives an error  -->
+                {{ form.content(class="form-control form-control-lg is-invalid") }}
+                <div class="invail-feedback">
+                    <!-- Displays the error -->
+                    {% for error in form.content.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <!-- Displays the content if there are no errors -->
+                {{ form.content(class="form-control form-control-lg") }}
+
+                {% endif %}
+            </div>
+
+
+        </fieldset>
+
+        <!-- Submit button -->
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+
+    </form>
+</div>
+{% endblock %}
