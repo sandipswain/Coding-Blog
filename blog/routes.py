@@ -174,6 +174,7 @@ def post(post_id):
     return render_template('post.html',post=post,legend='New Post')
 
 @app.route('/post/<int:post_id>/update',methods=['GET','POST'])
+@login_required
 def update_post(post_id):
     post=Post.query.get_or_404(post_id)
     #Only the user who wrote the post can update it
@@ -194,3 +195,16 @@ def update_post(post_id):
         form.title.data=post.title
         form.content.data=post.content
     return render_template('create_post.html',form=form,legend='Update Post')
+
+#Delete Post
+# To accept when an usre submits from that modal so we need only POST in this case 
+@app.route('/post/<int:post_id>/delete',methods=['POST'])
+def delete_post(post_id):
+    post=Post.query.get_or_404(post_id)
+    #Only the user who wrote the post can delete it
+    if post.author != current_user:
+        abort(403)#HTTP response for a forbidden route
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your Post has been deleted !','success')
+    return redirect(url_for('main'))
