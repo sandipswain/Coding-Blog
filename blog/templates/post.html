@@ -8,7 +8,8 @@
     <div class="media-body">
         <div class="article-metadata">
             <!-- Posts Author name -->
-            <a href="#" class="mr-2">{{ post.author.username }}</a>
+            <a href="{{ url_for('user_posts', username=post.author.username) }}"
+                class="mr-2">{{ post.author.username }}</a>
             <!-- Date Posted -->
             <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
             <!-- To show the below links if the post belongs to the current user -->

@@ -26,7 +26,10 @@ from flask_login import login_user,current_user,logout_user,login_required
 #Home Page
 @app.route('/')
 def main():
-    posts=Post.query.all()
+    # Since we will only get the first page and in order to access the other page we willdo this by passing query parameters in the URL
+    page=request.args.get('page',1,type=int)
+    # Displaying per page post in descending order (recent posts first)
+    posts=Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
     return render_template('index.html', posts=posts)
 
 #About Site
@@ -208,3 +211,17 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your Post has been deleted !','success')
     return redirect(url_for('main'))
+
+# Route to display specific users post on clicking their username
+@app.route('/user/<string:username>')
+def user_posts(username):
+    # Since we will only get the first page and in order to access the other page we willdo this by passing query parameters in the URL
+    page=request.args.get('page',1,type=int)
+    # Displaying per page post in descending order (recent posts first)
+    # Get the first user with the username if found else return a 404 error
+    user=User.query.filter_by(username=username).first_or_404()
+    # Get the posts belonging to this User
+    posts=Post.query.filter_by(author=user)\
+        .order_by(Post.date_posted.desc())\
+        .paginate(page=page,per_page=4)
+    return render_template('user_posts.html', posts=posts,user=user)
